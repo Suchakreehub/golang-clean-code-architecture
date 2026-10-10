@@ -89,6 +89,19 @@ def create_app() -> FastAPI:
     # Also mount health on root for convenience
     app.include_router(health_router)
 
+    # Mount Frontend Static Files
+    import os
+    from fastapi.staticfiles import StaticFiles
+    from fastapi.responses import FileResponse
+
+    frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../frontend"))
+    if os.path.exists(frontend_dir):
+        app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+
+        @app.get("/", include_in_schema=False)
+        async def serve_frontend_root():
+            return FileResponse(os.path.join(frontend_dir, "index.html"))
+
     return app
 
 
