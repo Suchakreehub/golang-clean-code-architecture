@@ -1,19 +1,50 @@
-version: '3.1'
+version: '3.8'
 
 services:
-
-  db:
-    image: postgres:15
+  postgres:
+    image: postgres:15-alpine
+    container_name: khaojai-postgres
+    restart: always
     environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: golang-first-api
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  mongodb:
-    image: mongo:6.0.8
-    ports:
-      - "27017:27017"
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: khaojai-clean-api
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: golang-first-api
+      APP_NAME: "Khaojai Clean Architecture API"
+      APP_HOST: "0.0.0.0"
+      APP_PORT: 8000
+      DB_TYPE: "postgres"
+      DATABASE_URL: "postgresql://postgres:golang-first-api@postgres:5432/postgres"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "golang-first-api"
+      SECRET_KEY: "khaojai-super-secret-jwt-key-2026-clean-architecture-production"
+      JWT_ACCESS_EXPIRES: 86400
+      JWT_REFRESH_EXPIRES: 172800
+      DEBUG: "True"
+    ports:
+      - "8000:8000"
 
+volumes:
+  postgres_data:
