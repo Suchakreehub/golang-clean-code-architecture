@@ -1,40 +1,76 @@
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
 *.so
-*.dylib
-*.log
 
-# Test binary, built with `go test -c`
-*.test
-*.tmp
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
+# Virtual Environments
+venv/
+.venv/
+ENV/
+env/
+env.bak/
+venv.bak/
 
-# IDE files
-.vscode
+# Environment variables
+.env
+.env.local
+.env.*.local
+!.env.template
+
+# Testing & Coverage
+.cache
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Node / Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.cache/
+frontend/build/
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
 .DS_Store
-.idea
 
-# Misc
-*.fiber.gz
-*.fasthttp.gz
-*.pprof
-*.workspace
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
 
-# Dependencies
-/vendor/
-vendor/
-vendor
-/Godeps/
-/assets
-
-# Customs
-*.env*
-.air*
-/tmp
-*.pem
-apikey.txt
-*.txt
+# Packaging
+*.zip
